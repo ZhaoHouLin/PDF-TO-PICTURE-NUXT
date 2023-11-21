@@ -1,0 +1,66 @@
+flexCenter(juc=center,ali=center,direction=row)
+	display flex
+	justify-content juc
+	align-items ali
+	flex-direction direction
+	
+pos(l=50%,t=l)
+	position absolute
+	left l
+	top t
+
+size(w=100%,h=w)
+	width w
+	height h
+
+random(min,max)
+	return floor(math(0, 'random')*(max - min + 1) + min)
+
+
+fontStyle(fz=1.6rem)
+	font-size fz
+	line-height (fz * 2)
+	text-indent (fz * 2)
+	letter-spacing 4px
+
+outlineSpace = 1.4rem
+
+color_yellow = #e3ff7b
+color_brown =#D4C8BE
+color_green =#00dcb4
+color_grey = #f4f5f7
+color_blue = #3a99ff
+color_purple =#ac94fa
+color_black =#262622
+color_red = #f98080
+
+colorPrimary = rgb(166, 30, 77)
+colorSecondary = rgb(238,238,238)
+
+*
+  box-sizing border-box
+	margin 0
+	padding 0  
+	font-family '微軟正黑體'
+	letter-spacing 2px
+
+	button
+		padding 8px
+		cursor pointer
+		background none
+		border 1px solid colorPrimary
+		border-radius 4px
+		transition 0.5s
+		color colorPrimary
+		&:hover
+			color color_black
+			border-color color_black
+
+html,body
+	-webkit-overflow-scrolling touch
+	overflow-scrolling touch
+	
+body
+	font-size 16px
+
+

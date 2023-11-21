@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfjs/2.6.347/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf2json/1.1.1/pdf2json.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdf2pic/dist/pdf2pic.min.js"></script>
+  </head>
+  <body>
+    <canvas></canvas>
+  </body>
+
+  <script>
+    // 加载 PDF 文件
+    const loadingTask = pdfjsLib.getDocument(
+      "D:\\文件\\疾管暑相關文件\\電腦環境設定文件 WIN10\\升級後電腦環境設定.pdf"
+    )
+    loadingTask.promise.then(
+      function (pdf) {
+        // 加载第一页
+        pdf.getPage(1).then(function (page) {
+          const scale = 1.5
+          const viewport = page.getViewport({ scale: scale })
+
+          // 准备 canvas 元素
+          const canvas = document.createElement("canvas")
+          const context = canvas.getContext("2d")
+          canvas.height = viewport.height
+          canvas.width = viewport.width
+
+          // 将 PDF 渲染到 canvas 上
+          const renderContext = {
+            canvasContext: context,
+            viewport: viewport,
+          }
+          const renderTask = page.render(renderContext)
+          renderTask.promise.then(function () {
+            // 将 canvas 转换为 JPG
+            const imgData = canvas.toDataURL("image/jpeg")
+            const img = new Image()
+            img.src = imgData
+            document.body.appendChild(img)
+          })
+        })
+      },
+      function (reason) {
+        console.error(reason)
+      }
+    )
+
+    // 创建 PDF2Pic 实例
+    const pdf2pic = new PDF2Pic({
+      density: 300,
+      savename: "my-image",
+      savedir: "./",
+      format: "jpg",
+      size: "600x600",
+    })
+
+    // 将 PDF 转换为 JPG
+    pdf2pic
+      .convert(
+        "D:\\文件\\疾管暑相關文件\\電腦環境設定文件 WIN10\\升級後電腦環境設定.pdf"
+      )
+      .then((resolve) => {
+        console.log("image converted successfully")
+      })
+  </script>
+</html>
